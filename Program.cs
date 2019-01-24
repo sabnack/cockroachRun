@@ -9,19 +9,19 @@ namespace cockroachRun
     {
         static void Main(string[] args)
         {
-            var timerLock = new object();
             Console.CursorVisible = false;
-            var cockroachs = new List<Cockroach> { new Cockroach("Vasya"), new Cockroach("Petya"), new Cockroach("Sanya"), new Cockroach("Igor") };
+            var cockroachs = new List<Cockroach> { new Cockroach("Vasya"), new Cockroach("Petya"), new Cockroach("Sanya"), new Cockroach("Vanya") };
 
             cockroachs.ForEach(x => x.Run());
 
             //TimerCallback tm = new TimerCallback(PrintDistance);
 
-            Timer timer = new Timer(PrintDistance, cockroachs, 0, 10000);
+            Timer timer = new Timer(PrintDistance, cockroachs, 0, 5000);
             Timer timer2 = null;
-            timer2 = new Timer((obj) => { Dispose(cockroachs); timer2.Dispose();},null, 60000, Timeout.Infinite);
+            timer2 = new Timer((obj) => { Dispose(cockroachs); timer2.Dispose();},null, 30000, Timeout.Infinite);
 
-            Thread.Sleep(61000);
+            Thread.Sleep(31000);
+            timer.Dispose();
             PrintWinner(cockroachs);
         }
 
@@ -33,7 +33,7 @@ namespace cockroachRun
         static void PrintDistance(object o)
         {
             var cockroachs = (List<Cockroach>)o;
-            cockroachs.ForEach(x => Console.WriteLine($"{x.Name} - {x.Distance:f1}"));
+            cockroachs.OrderByDescending(x=> x.Distance).ToList().ForEach(x => Console.WriteLine($"{x.Name} - {x.Distance:f1}"));
             Console.SetCursorPosition(0, 0);
         }
 

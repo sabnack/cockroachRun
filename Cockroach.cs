@@ -6,16 +6,14 @@ namespace cockroachRun
     class Cockroach
     {
         public string Name { get; private set; }
-        private double Speed { get; set; }
         public double Distance { get; set; }
         private TimerCallback tm { get; set; }
-        private static Random rnd = new Random();
+        private static Random rnd = new Random(DateTime.Now.Millisecond);
         private Timer Timer { get; set; }
         public Cockroach(string name)
         {
             
             Name = name;
-            Speed = (double)(rnd.Next(1, 10)) / 10;
             tm = new TimerCallback(DistanceCalculation);
         }
 
@@ -31,7 +29,7 @@ namespace cockroachRun
 
         private void DistanceCalculation(object obj)
         {
-            Distance += Speed;
+            Distance += (double)(rnd.Next(1, 10)) / 10; 
         }
     }
 }
